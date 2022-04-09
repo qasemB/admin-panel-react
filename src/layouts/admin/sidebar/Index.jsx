@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AdminContext } from "../../../context/adminLayoutContext";
 
 const Index = () => {
+  const {showSidebar} = useContext(AdminContext)
   return (
     <section id="sidebar_section">
-      <div className="mini_sidebar collapsedd bg-dark h-100">
+      <div className={`mini_sidebar collapsedd bg-dark h-100 ${showSidebar ? "expanded" : null}`}>
         <ul className="p-0 m-0">
           <li className="pt-1 pb-2 d-flex flex-column avatar_li position-relative">
             <span className="avatar_box">
