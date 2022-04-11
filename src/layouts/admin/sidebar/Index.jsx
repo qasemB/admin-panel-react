@@ -1,159 +1,40 @@
 import React, { useContext } from "react";
 import { AdminContext } from "../../../context/adminLayoutContext";
+import Avatar from "./Avatar";
+import SidebarGroupTitle from "./SidebarGroupTitle";
+import SidebarItem from "./SidebarItem";
 
 const Index = () => {
   const {showSidebar} = useContext(AdminContext)
   return (
     <section id="sidebar_section">
       <div className={`mini_sidebar collapsedd bg-dark h-100 ${showSidebar ? "expanded" : null}`}>
-        <ul className="p-0 m-0">
-          <li className="pt-1 pb-2 d-flex flex-column avatar_li position-relative">
-            <span className="avatar_box">
-              <img
-                className="w-100 rounded-circle"
-                src="/assets/images/avatar/user2.jpg"
-              />
-            </span>
-            <div className="sidebar_avatar_name text-center hiddenable">
-              قاسم بساکی
-            </div>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item mt-2 active"
-            data-section-id="dashboard_section"
-          >
-            <i className="ms-3 icon fas fa-tachometer-alt text-light"></i>
-            <span className="hiddenable no_wrap font_08">داشبورد</span>
-          </li>
+        <div className="p-0 m-0">
+          <Avatar name="قاسم بساکی" imagePath="/assets/images/avatar/user2.jpg"/>
+          <SidebarItem icon="fas fa-tachometer-alt" title="داشبورد"/>
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title">
-              فروشگاه
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_product_category"
-          >
-            <i className="ms-3 icon fas fa-stream text-light"></i>
-            <span className="hiddenable no_wrap font_08">
-              مدیریت گروه محصول
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_product_section"
-          >
-            <i className="ms-3 icon fas fa-cube text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت محصول</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_brand_section"
-          >
-            <i className="ms-3 icon fas fa-copyright text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت برند ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_guarantee_section"
-          >
-            <i className="ms-3 icon fab fa-pagelines text-light"></i>
-            <span className="hiddenable no_wrap font_08">
-              مدیریت گارانتی ها
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_color_section"
-          >
-            <i className="ms-3 icon fas fa-palette text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت رنگ ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_discount_section"
-          >
-            <i className="ms-3 icon fas fa-percentage text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت تخفیف ها</span>
-          </li>
+          <SidebarGroupTitle title="فروشگاه"/>
+          <SidebarItem icon="fas fa-stream" title="مدیریت گروه محصول"/>
+          <SidebarItem icon="fas fa-cube" title="مدیریت محصول"/>
+          <SidebarItem icon="fas fa-copyright"  title="مدیریت برندها"/>
+          <SidebarItem icon="fab fa-pagelines" title="مدیریت گارانتی ها"/>
+          <SidebarItem icon="fas fa-palette"  title="مدیریت رنگ ها"/>
+          <SidebarItem icon="fas fa-percentage" title="مدیریت تخفیف ها"/>
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title">
-              سفارشات و سبد
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_cart_section"
-          >
-            <i className="ms-3 icon fas fa-shopping-basket text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت سبد ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_orders_section"
-          >
-            <i className="ms-3 icon fas fa-luggage-cart text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت سفارشات</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_deliveries_section"
-          >
-            <i className="ms-3 icon fas fa-truck-loading text-light"></i>
-            <span className="hiddenable no_wrap font_08">
-              مدیریت نحوه ارسال
-            </span>
-          </li>
+          <SidebarGroupTitle title="سفارشات و سبد"/>
+          <SidebarItem icon="fas fa-shopping-basket" title="مدیریت سبد ها"/>
+          <SidebarItem icon="fas fa-luggage-cart" title="مدیریت سفارشات"/>
+          <SidebarItem icon="fas fa-truck-loading" title="مدیریت نحوه ارسال"/>
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title ">
-              کاربران و همکاران
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_user_section"
-          >
-            <i className="ms-3 icon fas fa-users text-light"></i>
-            <span className="hiddenable no_wrap font_08">مشاهده کاربران</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_role_section"
-          >
-            <i className="ms-3 icon fas fa-user-tag text-light"></i>
-            <span className="hiddenable no_wrap font_08">نقش ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_permission_section"
-          >
-            <i className="ms-3 icon fas fa-shield-alt text-light"></i>
-            <span className="hiddenable no_wrap font_08">مجوز ها</span>
-          </li>
+          <SidebarGroupTitle title="کاربران و همکاران"/>
+          <SidebarItem icon="fas fa-users" title="مشاهده کاربران"/>
+          <SidebarItem icon="fas fa-user-tag" title="نقش ها"/>
+          <SidebarItem icon="fas fa-shield-alt" title="مجوز ها"/>
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title ">
-              ارتباطات
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_question_section"
-          >
-            <i className="ms-3 icon fas fa-question-circle text-light"></i>
-            <span className="hiddenable no_wrap font_08">سوال ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_comments_section"
-          >
-            <i className="ms-3 icon fas fa-comment text-light"></i>
-            <span className="hiddenable no_wrap font_08">نظرات</span>
-          </li>
-        </ul>
+          <SidebarGroupTitle title="ارتباطات"/>
+          <SidebarItem icon="fas fa-question-circle" title="سوال ها"/>
+          <SidebarItem icon="fas fa-comment" title="نظرات"/>
+        </div>
       </div>
     </section>
   );
