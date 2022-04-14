@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import AdminContextContainer, { AdminContext } from "../../context/adminLayoutContext";
+import Dashboard from "../../pages/dashboard/Dashboard";
 import { toggleSidebar } from "../../utils/initialDoms";
 import Navbar from "./navbar/Index";
 import Sidebar from "./sidebar/Index";
@@ -16,7 +17,9 @@ const Index = () => {
         <Navbar />
         <Sidebar />
         <section id="content_section" 
-        className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}></section>
+        className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
+          <Dashboard/>
+        </section>
       </div>
     </AdminContextContainer>
   );
