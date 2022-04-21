@@ -29,6 +29,11 @@ a{
     z-index: unset !important;
 }
 
+.disabled{
+    pointer-events: none !important;
+    opacity: 0.5;
+}
+
 
 /* scrollbars ------------------ */
 ::-webkit-scrollbar{
