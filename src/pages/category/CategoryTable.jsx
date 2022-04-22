@@ -1,5 +1,6 @@
 import React from "react";
 import PaginatedTable from "../../components/PaginatedTable";
+import Addcategory from "./AddCategory";
 
 const Categorytable = () => {
   const data = [
@@ -94,9 +95,23 @@ const Categorytable = () => {
     elements: (itemId) => additionalElements(itemId),
   };
 
+  const searchParams = {
+    title: "جستجو",
+    placeholder: "قسمتی از عنوان را وارد کنید",
+    searchField: "title"
+  }
+
   return (
     <>
-      <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}/>
+      <PaginatedTable
+        data={data}
+        dataInfo={dataInfo}
+        additionField={additionField}
+        numOfPAge={8}
+        searchParams={searchParams}
+      >
+        <Addcategory />
+      </PaginatedTable>
     </>
     // <>
     //   <table className="table table-responsive text-center table-hover table-bordered">
