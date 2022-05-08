@@ -21,6 +21,27 @@ a{
     text-decoration: none !important;
 }
 
+
+.waiting_center{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: opacityChange;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+}
+@keyframes opacityChange {
+    0%   {opacity: 1;}
+    50%  {opacity: 0.5;}
+    100% {opacity: 1;}
+}
+
 .modal-backdrop.fade{
     display: none !important;
 }
