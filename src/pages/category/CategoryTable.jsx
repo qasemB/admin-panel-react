@@ -58,7 +58,6 @@ const Categorytable = () => {
   ];
 
   const additionalElements = (itemId) => {
-    console.log(itemId);
     return (
       <>
         <i
