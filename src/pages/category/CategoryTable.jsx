@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import PaginatedTable from "../../components/PaginatedTable";
 import { getCategoriesService } from "../../services/category";
 import { Alert } from "../../utils/alerts";
@@ -7,23 +8,26 @@ import Actions from "./tableAdditons/Actions";
 import ShowInMenu from "./tableAdditons/ShowInMenu";
 
 const Categorytable = () => {
-  const [data , setData] = useState([])
-  const handleGetCategories = async ()=>{
+  const params = useParams();
+  const location = useLocation();
+  const [data, setData] = useState([]);
+  const handleGetCategories = async () => {
     try {
-      const res = await getCategoriesService()
+      const res = await getCategoriesService(params.categoryId);
       if (res.status === 200) {
-        setData(res.data.data)
-      }else{
-        Alert('مشکل...!',res.data.message,'error');
+        setData(res.data.data);
+      } else {
+        Alert("مشکل...!", res.data.message, "error");
       }
     } catch (error) {
-      Alert('مشکل...!',"مشکلی از سمت سرور رخ داده",'error');
+      Alert("مشکل...!", "مشکلی از سمت سرور رخ داده", "error");
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
+    console.log(location);
     handleGetCategories();
-  },[])
+  }, [params]);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -35,22 +39,28 @@ const Categorytable = () => {
   const additionField = [
     {
       title: "نمایش در منو",
-      elements: (rowData) => <ShowInMenu rowData={rowData}/>,
+      elements: (rowData) => <ShowInMenu rowData={rowData} />,
     },
     {
       title: "عملیات",
-      elements: (rowData) => <Actions rowData={rowData}/>,
-    }
+      elements: (rowData) => <Actions rowData={rowData} />,
+    },
   ];
 
   const searchParams = {
     title: "جستجو",
     placeholder: "قسمتی از عنوان را وارد کنید",
-    searchField: "title"
-  }
+    searchField: "title",
+  };
 
   return (
     <>
+      {location.state ? (
+        <h5 className="text-center">
+          <span>زیرگروه: </span>
+          <span className="text-info">{location.state.parentData.title}</span>
+        </h5>
+      ) : null}
       <PaginatedTable
         data={data}
         dataInfo={dataInfo}
