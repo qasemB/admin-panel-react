@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import PaginatedTable from "../../components/PaginatedTable";
 import { getCategoriesService } from "../../services/category";
 import { Alert } from "../../utils/alerts";
+import { convertDateToJalali } from "../../utils/convertDate";
 import Addcategory from "./AddCategory";
 import Actions from "./tableAdditons/Actions";
 import ShowInMenu from "./tableAdditons/ShowInMenu";
@@ -33,10 +34,13 @@ const Categorytable = () => {
     { field: "id", title: "#" },
     { field: "title", title: "عنوان محصول" },
     { field: "parent_id", title: "والد" },
-    { field: "created_at", title: "تارخ" },
   ];
 
   const additionField = [
+    {
+      title: "تاریخ",
+      elements: (rowData) => convertDateToJalali(rowData.created_at),
+    },
     {
       title: "نمایش در منو",
       elements: (rowData) => <ShowInMenu rowData={rowData} />,
@@ -55,21 +59,20 @@ const Categorytable = () => {
 
   return (
     <>
-      {location.state ? (
-        <h5 className="text-center">
-          <span>زیرگروه: </span>
-          <span className="text-info">{location.state.parentData.title}</span>
-        </h5>
-      ) : null}
-      <PaginatedTable
-        data={data}
-        dataInfo={dataInfo}
-        additionField={additionField}
-        numOfPAge={8}
-        searchParams={searchParams}
-      >
-        <Addcategory />
-      </PaginatedTable>
+      <Outlet />
+      {data.length ? (
+        <PaginatedTable
+          data={data}
+          dataInfo={dataInfo}
+          additionField={additionField}
+          numOfPAge={8}
+          searchParams={searchParams}
+        >
+          <Addcategory />
+        </PaginatedTable>
+      ) : (
+        <h5 className="text-center my-5 text-danger">هیچ دسته بندی یافت نشد</h5>
+      )}
     </>
     // <>
     //   <table className="table table-responsive text-center table-hover table-bordered">
