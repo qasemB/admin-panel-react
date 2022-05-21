@@ -84,6 +84,10 @@ a{
     text-shadow: 0 0 3px black;
 }
 
+.error_message{
+    margin-top: -8px;
+}
+
 .hoverable{
     transition: all 200ms ease;
 }
