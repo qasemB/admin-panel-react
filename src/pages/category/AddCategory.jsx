@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import FormikControl from "../../components/form/FormikControl";
 import { Alert } from "../../utils/alerts";
-import { getCategoriesService } from "../../services/category";
+import { createNewCategoryService, getCategoriesService } from "../../services/category";
 
 const initialValues = {
   parent_id: "",
@@ -15,7 +15,24 @@ const initialValues = {
   show_in_menu: true,
 };
 
-const onSubmit = (values, actions) => {
+const onSubmit = async (values, actions, setForceRender) => {
+  console.log(actions);
+  try {
+    values = {
+      ...values,
+      is_active: values.is_active ? 1 : 0,
+      show_in_menu: values.show_in_menu ? 1 : 0,
+    }
+    const res = await createNewCategoryService(values)
+    console.log(res);
+    if (res.status == 201) {
+      Alert('ثبت رکورد', res.data.message, 'success');
+      actions.resetForm();
+      setForceRender(last=>last+1)
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
   console.log(values);
 };
 
@@ -47,14 +64,13 @@ const validationSchema = Yup.object({
 //   { id: 2, value: "test2" },
 // ];
 
-const Addcategory = () => {
+const Addcategory = ({setForceRender}) => {
   const [parents, setParents] = useState([]);
   const handleGetParentsCategories = async () => {
     try {
       const res = await getCategoriesService();
       if (res.status == 200) {
         const allParents = res.data.data;
-        console.log(allParents);
         setParents(
           allParents.map((p) => {
             return { id: p.id, value: p.title };
@@ -85,7 +101,7 @@ const Addcategory = () => {
       >
         <Formik
           initialValues={initialValues}
-          onSubmit={onSubmit}
+          onSubmit={(values, actions)=>onSubmit(values, actions, setForceRender)}
           validationSchema={validationSchema}
         >
           <Form>
