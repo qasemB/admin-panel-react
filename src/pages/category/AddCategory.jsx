@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ModalsContainer from "../../components/ModalsContainer";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import FormikControl from "../../components/form/FormikControl";
 import { Alert } from "../../utils/alerts";
-import { createNewCategoryService, getCategoriesService } from "../../services/category";
+import {
+  createNewCategoryService,
+  getCategoriesService,
+} from "../../services/category";
+import SpinnerLoad from "../../components/SpinnerLoad";
+import SubmitButton from "../../components/form/SubmitButton";
 
 const initialValues = {
   parent_id: "",
@@ -22,13 +27,13 @@ const onSubmit = async (values, actions, setForceRender) => {
       ...values,
       is_active: values.is_active ? 1 : 0,
       show_in_menu: values.show_in_menu ? 1 : 0,
-    }
-    const res = await createNewCategoryService(values)
+    };
+    const res = await createNewCategoryService(values);
     console.log(res);
     if (res.status == 201) {
-      Alert('ثبت رکورد', res.data.message, 'success');
+      Alert("ثبت رکورد", res.data.message, "success");
       actions.resetForm();
-      setForceRender(last=>last+1)
+      setForceRender((last) => last + 1);
     }
   } catch (error) {
     console.log(error.message);
@@ -64,7 +69,7 @@ const validationSchema = Yup.object({
 //   { id: 2, value: "test2" },
 // ];
 
-const Addcategory = ({setForceRender}) => {
+const Addcategory = ({ setForceRender }) => {
   const [parents, setParents] = useState([]);
   const handleGetParentsCategories = async () => {
     try {
@@ -101,7 +106,9 @@ const Addcategory = ({setForceRender}) => {
       >
         <Formik
           initialValues={initialValues}
-          onSubmit={(values, actions)=>onSubmit(values, actions, setForceRender)}
+          onSubmit={(values, actions) =>
+            onSubmit(values, actions, setForceRender)
+          }
           validationSchema={validationSchema}
         >
           <Form>
@@ -155,9 +162,7 @@ const Addcategory = ({setForceRender}) => {
                   </div>
                 </div>
                 <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                  <button type="submit" className="btn btn-primary ">
-                    ذخیره
-                  </button>
+                  <SubmitButton/>
                 </div>
               </div>
             </div>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import PaginatedTable from "../../components/PaginatedTable";
 import { getCategoriesService } from "../../services/category";
-import { Alert } from "../../utils/alerts";
 import { convertDateToJalali } from "../../utils/convertDate";
 import Addcategory from "./AddCategory";
 import Actions from "./tableAdditons/Actions";
@@ -10,10 +9,11 @@ import ShowInMenu from "./tableAdditons/ShowInMenu";
 
 const Categorytable = () => {
   const params = useParams();
-  const location = useLocation();
   const [data, setData] = useState([]);
   const [forceRender, setForceRender] = useState(0);
+  const [loading , setLoading] = useState(false)
   const handleGetCategories = async () => {
+    setLoading(true)
     try {
       const res = await getCategoriesService(params.categoryId);
       if (res.status === 200) {
@@ -21,6 +21,8 @@ const Categorytable = () => {
       }
     } catch (error) {
       console.log(error.message);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -58,19 +60,16 @@ const Categorytable = () => {
   return (
     <>
       <Outlet />
-      {data.length ? (
-        <PaginatedTable
-          data={data}
-          dataInfo={dataInfo}
-          additionField={additionField}
-          numOfPAge={8}
-          searchParams={searchParams}
-        >
-          <Addcategory setForceRender={setForceRender}/>
-        </PaginatedTable>
-      ) : (
-        <h5 className="text-center my-5 text-danger">هیچ دسته بندی یافت نشد</h5>
-      )}
+      <PaginatedTable
+        data={data}
+        dataInfo={dataInfo}
+        additionField={additionField}
+        numOfPAge={8}
+        searchParams={searchParams}
+        loading={loading}
+      >
+        <Addcategory setForceRender={setForceRender} />
+      </PaginatedTable>
     </>
   );
 };
