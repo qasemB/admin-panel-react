@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import PaginatedTable from "../../components/PaginatedTable";
-import { getCategoriesService } from "../../services/category";
+import { deleteCategoryService, getCategoriesService } from "../../services/category";
+import { Alert, Confirm } from "../../utils/alerts";
 import { convertDateToJalali } from "../../utils/convertDate";
 import Addcategory from "./AddCategory";
 import Actions from "./tableAdditons/Actions";
@@ -26,6 +27,20 @@ const Categorytable = () => {
     }
   };
 
+  const handleDeleteCategory = async (rowData)=>{
+    if (await Confirm('حذف دسته بندی', `آیا از حذف ${rowData.title} اطمینان دارید؟`)) {
+     try {
+       const res = await deleteCategoryService(rowData.id);
+       if (res.status === 200) {
+         setData(data.filter(d=>d.id != rowData.id))
+         Alert('انجام شد', res.data.message, 'success')
+       }
+     } catch (error) {
+       console.log(error);
+     }
+    }
+  }
+
   useEffect(() => {
     handleGetCategories();
   }, [params, forceRender]);
@@ -47,7 +62,7 @@ const Categorytable = () => {
     },
     {
       title: "عملیات",
-      elements: (rowData) => <Actions rowData={rowData} />,
+      elements: (rowData) => <Actions rowData={rowData} handleDeleteCategory={handleDeleteCategory}/>,
     },
   ];
 
