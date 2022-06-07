@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import ModalsContainer from "../../components/ModalsContainer";
-import * as Yup from "yup";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import FormikControl from "../../components/form/FormikControl";
 import { Alert } from "../../utils/alerts";
 import {
-  createNewCategoryService,
   getCategoriesService,
   getSingleCategoryService,
 } from "../../services/category";
-import SpinnerLoad from "../../components/SpinnerLoad";
 import SubmitButton from "../../components/form/SubmitButton";
 import { useParams } from "react-router-dom";
 import { CategoryContext } from "../../context/categoryContext";

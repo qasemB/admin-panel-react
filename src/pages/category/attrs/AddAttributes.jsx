@@ -1,17 +1,59 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PaginatedTable from "../../../components/PaginatedTable";
 import PrevPageButton from "../../../components/PrevPageButton";
-import { getCategoryAttrsService } from "../../../services/categoryAttr";
+import { addCategoryAttrService, getCategoryAttrsService } from "../../../services/categoryAttr";
 import AttrAction from "./AttrAction";
 import ShowInFilter from "./ShowInFilter";
+import * as Yup from "yup";
+import FormikControl from "../../../components/form/FormikControl";
+import SubmitButton from "../../../components/form/SubmitButton";
+import { Alert } from "../../../utils/alerts";
+
+const initialValues = {
+  title: "",
+  unit: "",
+  in_filter: true,
+};
+
+const onSubmit = async (values, actions, catId, setData) => {
+  try {
+    values = {
+      ...values,
+      in_filter: values.in_filter ? 1 : 0
+    }
+    const res = await addCategoryAttrService(catId, values);
+    if (res.status === 201) {
+      Alert('انجام شد', res.data.message, 'success');
+      setData(oldData=>[...oldData, res.data.data])
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const validationSchema = Yup.object({
+  title: Yup.string()
+    .required("لطفا این قسمت را پر کنید")
+    .matches(
+      /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
+      "فقط از حروف و اعداد استفاده شود"
+    ),
+  unit: Yup.string()
+    .required("لطفا این قسمت را پر کنید")
+    .matches(
+      /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
+      "فقط از حروف و اعداد استفاده شود"
+    ),
+  in_filter: Yup.boolean(),
+});
 
 const AddAttributes = () => {
   const location = useLocation();
 
-
   const [data, setData] = useState([]);
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -25,7 +67,7 @@ const AddAttributes = () => {
     },
     {
       title: "عملیات",
-      elements: (rowData) => <AttrAction rowData={rowData}/>,
+      elements: (rowData) => <AttrAction rowData={rowData} />,
     },
   ];
   const searchParams = {
@@ -34,25 +76,22 @@ const AddAttributes = () => {
     searchField: "title",
   };
 
-
-  const handleGetCategoryAttrs = async ()=>{
-      setLoading(true)
-      try {
-          const res = await getCategoryAttrsService(location.state.categoryData.id)
-          console.log(res);
-          if (res.status === 200) {
-              setData(res.data.data);
-          }
-      } catch (error) {
-          console.log(error.message);
-      }finally{
-          setLoading(false)
+  const handleGetCategoryAttrs = async () => {
+    setLoading(true);
+    try {
+      const res = await getCategoryAttrsService(location.state.categoryData.id);
+      if (res.status === 200) {
+        setData(res.data.data);
       }
-  }
-
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-      handleGetCategoryAttrs()
+    handleGetCategoryAttrs();
   }, []);
 
   return (
@@ -66,45 +105,42 @@ const AddAttributes = () => {
       </h6>
       <div className="container">
         <div className="row justify-content-center">
-          <div className="row my-3">
-            <div className="col-12 col-md-6 col-lg-4 my-1">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="عنوان ویژگی جدید"
-              />
-            </div>
-            <div className="col-12 col-md-6 col-lg-4 my-1">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="واحد ویژگی جدید"
-              />
-            </div>
-            <div className="col-8 col-lg-2 my-1">
-              <div className="form-check form-switch d-flex justify-content-center align-items-center p-0 h-100">
-                <label
-                  className="form-check-label pointer"
-                  htmlFor="flexSwitchCheckDefault"
-                >
-                  نمایش در فیلتر
-                </label>
-                <input
-                  className="form-check-input pointer mx-3"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault"
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values, actions) => onSubmit(values, actions, location.state.categoryData.id, setData)}
+            validationSchema={validationSchema}
+          >
+            <Form>
+              <div className="row my-3">
+                <FormikControl
+                  control="input"
+                  type="text"
+                  name="title"
+                  label="عنوان"
+                  className="col-md-6 col-lg-4 my-1"
+                  placeholder="عنوان ویژگی جدید"
                 />
+                <FormikControl
+                  control="input"
+                  type="text"
+                  name="unit"
+                  label="واحد"
+                  className="col-md-6 col-lg-4 my-1"
+                  placeholder="واحد ویژگی جدید"
+                />
+                <div className="col-8 col-lg-2 my-1">
+                  <FormikControl
+                    control="switch"
+                    name="in_filter"
+                    label="نمایش در فیلتر"
+                  />
+                </div>
+                <div className="col-4 col-lg-2 d-flex justify-content-center align-items-start my-1">
+                  <SubmitButton/>
+                </div>
               </div>
-            </div>
-            <div className="col-4 col-lg-2 d-flex justify-content-center align-items-center my-1">
-              <i
-                className="fas fa-check text-light bg-success rounded-circle p-2 mx-1 hoverable_text hoverable pointer has_tooltip hoverable_text"
-                title="ثبت ویژگی"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-              ></i>
-            </div>
-          </div>
+            </Form>
+          </Formik>
 
           <hr />
 
@@ -116,7 +152,7 @@ const AddAttributes = () => {
             searchParams={searchParams}
             loading={loading}
           >
-            <PrevPageButton/>
+            <PrevPageButton />
           </PaginatedTable>
         </div>
       </div>
