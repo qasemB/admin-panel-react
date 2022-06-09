@@ -409,5 +409,13 @@ td , th {
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0061FF", endColorstr="#60EFFF", GradientType=1 );
 }
 
+.danger_shadow{
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+.is_inline .input-group{
+    margin: 0 !important;
+}
+
 
 /* content end-------<<<<<<< */

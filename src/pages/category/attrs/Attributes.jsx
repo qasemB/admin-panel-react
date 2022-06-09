@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PaginatedTable from "../../../components/PaginatedTable";
 import PrevPageButton from "../../../components/PrevPageButton";
-import { addCategoryAttrService, getCategoryAttrsService } from "../../../services/categoryAttr";
+import { addCategoryAttrService, editCategoryAttrService, getCategoryAttrsService } from "../../../services/categoryAttr";
 import AttrAction from "./AttrAction";
 import ShowInFilter from "./ShowInFilter";
 import * as Yup from "yup";
@@ -17,16 +17,31 @@ const initialValues = {
   in_filter: true,
 };
 
-const onSubmit = async (values, actions, catId, setData) => {
+const onSubmit = async (values, actions, catId, setData, attrToEdit, setAttrToEdit) => {
   try {
     values = {
       ...values,
       in_filter: values.in_filter ? 1 : 0
     }
-    const res = await addCategoryAttrService(catId, values);
-    if (res.status === 201) {
-      Alert('انجام شد', res.data.message, 'success');
-      setData(oldData=>[...oldData, res.data.data])
+    if (attrToEdit) {
+      const res = await editCategoryAttrService(attrToEdit.id, values);
+      console.log(res);
+      if (res.status === 200) {
+        setData(oldData=>{
+          const newData = [...oldData]
+          const index = newData.findIndex(d=>d.id === attrToEdit.id)
+          newData[index] = res.data.data
+          return newData
+        });
+        Alert('انجام شد', res.data.message, 'success');
+        setAttrToEdit(null)
+      }
+    }else{
+      const res = await addCategoryAttrService(catId, values);
+      if (res.status === 201) {
+        Alert('انجام شد', res.data.message, 'success');
+        setData(oldData=>[...oldData, res.data.data])
+      }
     }
   } catch (error) {
     console.log(error.message);
@@ -49,11 +64,13 @@ const validationSchema = Yup.object({
   in_filter: Yup.boolean(),
 });
 
-const AddAttributes = () => {
+const Attributes = () => {
   const location = useLocation();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [attrToEdit, setAttrToEdit] = useState(null)
+  const [reInitValues, setReInitValues] = useState(null)
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -67,7 +84,7 @@ const AddAttributes = () => {
     },
     {
       title: "عملیات",
-      elements: (rowData) => <AttrAction rowData={rowData} />,
+      elements: (rowData) => <AttrAction rowData={rowData} attrToEdit={attrToEdit}  setAttrToEdit={setAttrToEdit}/>,
     },
   ];
   const searchParams = {
@@ -94,6 +111,15 @@ const AddAttributes = () => {
     handleGetCategoryAttrs();
   }, []);
 
+  useEffect(()=>{
+    if (attrToEdit) setReInitValues({
+      title: attrToEdit.title,
+      unit: attrToEdit.unit,
+      in_filter: attrToEdit.in_filter ? true : false
+    }) 
+    else setReInitValues(null)
+  },[attrToEdit])
+
   return (
     <>
       <h4 className="text-center my-3">مدیریت ویژگی های دسته بندی</h4>
@@ -106,12 +132,19 @@ const AddAttributes = () => {
       <div className="container">
         <div className="row justify-content-center">
           <Formik
-            initialValues={initialValues}
-            onSubmit={(values, actions) => onSubmit(values, actions, location.state.categoryData.id, setData)}
+            initialValues={reInitValues || initialValues}
+            onSubmit={(values, actions) =>
+              onSubmit(values, actions, location.state.categoryData.id, setData, attrToEdit, setAttrToEdit)
+            }
             validationSchema={validationSchema}
+            enableReinitialize
           >
             <Form>
-              <div className="row my-3">
+              <div
+                className={`row my-3 ${
+                  attrToEdit ? "alert-danger danger_shadow" : ""
+                } justify-content-center align-items-center is_inline`}
+              >
                 <FormikControl
                   control="input"
                   type="text"
@@ -136,7 +169,15 @@ const AddAttributes = () => {
                   />
                 </div>
                 <div className="col-4 col-lg-2 d-flex justify-content-center align-items-start my-1">
-                  <SubmitButton/>
+                  <SubmitButton />
+                  {attrToEdit ? (
+                    <button
+                      className="byn btn-sm btn-secondary me-2"
+                      onClick={() => setAttrToEdit(null)}
+                    >
+                      انصراف
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </Form>
@@ -160,4 +201,4 @@ const AddAttributes = () => {
   );
 };
 
-export default AddAttributes;
+export default Attributes;
