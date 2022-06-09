@@ -2,7 +2,7 @@ import React from "react";
 
 const AttrAction = ({rowData,attrToEdit ,setAttrToEdit}) => {
   return (
-    <div className={`text-center ${attrToEdit? "alert-danger danger_shadow" : ""}`}>
+    <div className={`text-center ${attrToEdit && attrToEdit.id == rowData.id ? "alert-danger danger_shadow" : ""}`}>
       <i
         className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
         title="ویرایش ویژگی"
