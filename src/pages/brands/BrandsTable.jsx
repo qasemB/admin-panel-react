@@ -1,55 +1,68 @@
-import React from 'react';
+import React, { useState } from "react";
+import { useEffect } from "react";
+import PaginatedTable from "../../components/PaginatedTable";
+import { getAllBrandsService } from "../../services/brands";
+import { apiPath } from "../../services/httpService";
+import AddBrands from "./AddBrands";
+import Actions from "./tableAdditional/Actions";
 
 const Brandstable = () => {
-    return (
-        <>
-            <table className="table table-responsive text-center table-hover table-bordered">
-                <thead className="table-secondary">
-                    <tr>
-                        <th>#</th>
-                        <th>عنوان </th>
-                        <th>عنوان فارسی </th>
-                        <th>توضیحات</th>
-                        <th>لوگو</th>
-                        <th>عملیات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>brand 1</td>
-                        <td>برند شماره 1</td>
-                        <td> توضیحات اجمالی در مورد این برند</td>
-                        <td>
-                            <img src="/assets/images/logo.png" width="50" />
-                        </td>
-                        <td>
-                            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip" title="ویرایش برند" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#add_brand_modal"></i>
-                            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" title="حذف برند" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example" className="d-flex justify-content-center">
-                <ul className="pagination dir_ltr">
-                    <li className="page-item">
-                        <a className="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item">
-                        <a className="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-        </>
-    );
-}
+  const dataInfo = [
+    { field: "id", title: "#" },
+    { field: "original_name", title: "عنوان لاتین" },
+    { field: "persian_name", title: "عنوان فارسی" },
+    { field: "descriptions", title: "توضیحات" },
+  ];
+
+  const additionField = [
+    {
+      title: "لوگو",
+      elements: (rowData) =>
+        rowData.logo ? <img src={apiPath+"/"+rowData.logo} width="40" /> : null,
+    },
+    {
+      title: "عملیات",
+      elements: (rowData) => <Actions rowData={rowData} />,
+    },
+  ];
+
+  const searchParams = {
+    title: "جستجو",
+    placeholder: "قسمتی از عنوان را وارد کنید",
+    searchField: "original_name",
+  };
+
+  const handleGetAllBrands = async ()=>{
+    setLoading(true)
+    const res = await getAllBrandsService();
+    console.log(res);
+    res && setLoading(false)
+    if (res.status === 200) {
+        setData(res.data.data);
+    }
+  }
+
+  useEffect(()=>{
+    handleGetAllBrands()
+  },[])
+
+  return (
+    <>
+      <PaginatedTable
+        data={data}
+        dataInfo={dataInfo}
+        additionField={additionField}
+        numOfPAge={8}
+        searchParams={searchParams}
+        loading={loading}
+      >
+        <AddBrands setData={setData}/>
+      </PaginatedTable>
+    </>
+  );
+};
 
 export default Brandstable;

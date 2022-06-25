@@ -19,7 +19,7 @@ const Attributes = () => {
   const dataInfo = [
     { field: "id", title: "#" },
     { field: "title", title: "عنوان محصول" },
-    { field: "unit", title: "والد" },
+    { field: "unit", title: "واحد" },
   ];
   const additionField = [
     {
