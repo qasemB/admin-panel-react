@@ -1,5 +1,5 @@
 import React from "react";
-const Actions = ({ rowData}) => {
+const Actions = ({ rowData, handleDeleteProduct}) => {
   return (
     <>
       <i
@@ -20,6 +20,7 @@ const Actions = ({ rowData}) => {
         title="حذف محصول"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
+        onClick={()=>handleDeleteProduct(rowData)}
       ></i>
     </>
   );
