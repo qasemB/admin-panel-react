@@ -96,11 +96,12 @@ a{
 }
 
 .chips_elem{
-    background: #bde7db;
+    background: #e9ecef;
     border-radius: 5rem;
     padding: 0.2rem 0.5rem;
     margin-left: 3px;
     white-space: nowrap;
+    border: 1px solid #ced4da;
 }
 
 .chips_elem i{

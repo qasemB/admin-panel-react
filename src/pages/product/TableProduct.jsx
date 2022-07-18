@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import AddButtonLink from "../../components/AddButtonLink";
 import PaginatedDataTable from "../../components/PaginatedDataTable";
 import { deleteProductService, getProductsService } from "../../services/products";
 import { Alert, Confirm } from "../../utils/alerts";
@@ -76,11 +77,7 @@ const TableProduct = () => {
     pageCount={pageCount}
     handleSearch={handleSearch}
     >
-      <Link to="/products/add-product">
-          <a className="btn btn-success d-flex justify-content-center align-items-center">
-              <i className="fas fa-plus text-light"></i>
-          </a>
-      </Link>
+      <AddButtonLink href={"/products/add-product"}/>
     </PaginatedDataTable>
   );
 };
