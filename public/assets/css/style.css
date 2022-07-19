@@ -419,4 +419,26 @@ td , th {
 }
 
 
+.multi_select_items_content{
+    position: absolute;
+    background: white;
+    width: 100%;
+    right: 0;
+    top: 38px;
+    z-index: 1;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: -1px 7px 15px grey;
+}
+
+.multi_select_items_content .multi_select_items{
+    padding: 2px 10px 2px 0;
+}
+
+.multi_select_items_content .multi_select_items:hover{
+    background-color: #3186e7;
+    color: white;
+}
+
+
 /* content end-------<<<<<<< */

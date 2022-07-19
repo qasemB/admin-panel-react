@@ -42,40 +42,12 @@ const AddProduct = () => {
     }
   }
 
-  const handleSelectCategory = (value, formik)=>{
-    setSelectedCategories(oldData=>{
-      if (oldData.findIndex(d=>d.id == value) == -1) {
-        const newData = [...oldData, mainCategories.filter(c=>c.id == value)[0]];
-
-        const selectedIds = newData.map(nd=>nd.id);
-        formik.setFieldValue("category_ids", selectedIds.join("-"));
-
-        return newData
-      }else{
-        return oldData
-      }
-    })
-  }
-
-  const handleRemovefromSelectedCategories=(categoryId, formik)=>{
-    setSelectedCategories(oldData =>{
-      let newData = oldData.filter(d=>d.id != categoryId)
-
-      const selectedIds = newData.map(nd=>nd.id);
-      formik.setFieldValue("category_ids", selectedIds.join("-"));
-
-      return newData
-    });
-  }
-
   return (
     <Formik
     initialValues={initialValues}
     onSubmit={(values, actions) => onSubmit(values, actions)}
     validationSchema={validationSchema}
     >
-      {formik=>{
-        return (
           <Form>
           <div className="container">
             <h4 className="text-center my-3">افزودن محصول جدید</h4>
@@ -84,45 +56,29 @@ const AddProduct = () => {
             </div>
             <div className="row justify-content-center">
   
-              {parentCategories.length > 0 ? (
-                  <FormikControl
-                  className="col-md-6 col-lg-8"
-                  control="select"
-                  options={parentCategories}
-                  name="parentCats"
-                  label="دسته والد"
-                  firstItem = "دسته مورد نظر را انتخاب کنبد..."
-                  handleOnchange={handleSetMainCategories}
-                  />
-                ) : null
-              }
-  
-              <div className="col-12 col-md-6 col-lg-8">
+              <FormikControl
+              className="col-md-6 col-lg-8"
+              control="select"
+              options={parentCategories}
+              name="parentCats"
+              label="دسته والد"
+              firstItem = "دسته مورد نظر را انتخاب کنبد..."
+              handleOnchange={handleSetMainCategories}
+              />
+
               {mainCategories === "waiting" ? (
                 <SpinnerLoad isSmall={true} colorClass="text-primary"/>
               ) :mainCategories != null ? (
                 <FormikControl
-                  control="select"
-                  options={mainCategories}
-                  name="mainCats"
-                  label="دسته اصلی"
-                  firstItem = "دسته مورد نظر را انتخاب کنبد..."
-                  handleOnchange={handleSelectCategory}
+                className="col-md-6 col-lg-8"
+                control="searchableSelect"
+                options={mainCategories}
+                name="category_ids"
+                label="دسته اصلی"
+                firstItem = "دسته مورد نظر را انتخاب کنبد..."
+                resultType= "string"
                 />
-                ): null}
-  
-                <ErrorMessage name={"category_ids"} component={FormikError}/> 
-                
-                <div className="col-12 col-md-6 col-lg-8">
-                    {selectedCategories.map(category=>(
-                        <span className="chips_elem" key={category.id}>
-                        <i className="fas fa-times text-danger" onClick={()=>handleRemovefromSelectedCategories(category.id, formik)}></i>
-                          {category.value}
-                        </span>
-                    ))}
-                </div>
-  
-              </div>
+              ): null}
   
               <div className="col-12 col-md-6 col-lg-8">
                 <div className="input-group my-3 dir_ltr">
@@ -343,8 +299,6 @@ const AddProduct = () => {
             </div>
           </div>
           </Form>
-        )
-      }}
     </Formik>
   );
 };
