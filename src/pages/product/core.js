@@ -1,25 +1,30 @@
 import * as Yup from "yup";
+import { createNewProductService } from "../../services/products";
+import { Alert } from "../../utils/alerts";
   
   export const initialValues = {
     category_ids: "",
     title: "",
     price: "",
-    weight: null,
-    brand_id: null,
+    weight: "",
+    brand_id: "",
     color_ids: "",
     guarantee_ids: "",
     descriptions: "",
     short_descriptions: "",
     cart_descriptions: "",
-    image: null,
+    image: "",
     alt_image: "",
     keywords: "",
-    stock: null,
-    discount: null,
+    stock: "",
+    discount: "",
   };
   
   export const onSubmit = async (values, actions) => {
-
+    const res = await createNewProductService(values);
+    if (res.status === 201) {
+      Alert('انجام شد', res.data.message, 'success')
+    }
   };
   
   export const validationSchema = Yup.object({
@@ -43,7 +48,7 @@ import * as Yup from "yup";
         !value ? true : value.size <= 500 * 1024
       )
       .test("format", "فرمت فایل باید jpg باشد", (value) =>
-        !value ? true : value.type === "image/jpeg"
+        !value ? true : value.type === "image/jpeg" || value.type === "image/png"
       ),
     alt_image: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     keywords: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),

@@ -11,6 +11,16 @@ const SearchableSelect = ({resultType, options, name, label, className, firstIte
   const [showItems, setShowItems] = useState(false);
   const [copyOptions , setCopyOptions]=useState(options);
 
+  useEffect(()=>{
+    setCopyOptions(options)
+  },[options])
+
+  useEffect(()=>{
+    document.querySelector('body').addEventListener('click', ()=>{
+        setShowItems(false)
+    })
+  },[])
+
   const handleSelectItems = (selectedId, formik)=>{
     if (selectedItems.findIndex(d=>d.id == selectedId) == -1 && selectedId > 0) {
 
@@ -41,7 +51,10 @@ const SearchableSelect = ({resultType, options, name, label, className, firstIte
         {({form})=>{
             return (
                 <div className={`col-12 ${className}`}>            
-                    <div className="input-group mb-3 dir_ltr pointer" onClick={()=>setShowItems(!showItems)}>
+                    <div className="input-group mb-3 dir_ltr pointer" onClick={(e)=>{
+                        e.stopPropagation()
+                        setShowItems(!showItems)
+                    }}>
                         <div className="form-control" id={name + "-select"}>
                             {selectedItems.length > 0 ? 
                                 selectedItems.map((selectedItem) => (
@@ -55,7 +68,7 @@ const SearchableSelect = ({resultType, options, name, label, className, firstIte
                                 <span className="text-secondary">{firstItem}</span>
                             )}
                             <div className={`multi_select_items_content ${!showItems ? "d-none" : ""}`}>
-                                <input type="text" className="form-control" autoFocus={showItems} placeholder="قسمتی از عنوان مورد نظر را وارد کنید" 
+                                <input type="text" className="form-control" placeholder="قسمتی از عنوان مورد نظر را وارد کنید" 
                                 onClick={(e)=>e.stopPropagation()} 
                                 onChange={(e)=>setCopyOptions(options.filter(o=>o.value.includes(e.target.value)))}/>
                                 <ul className="p-0">
