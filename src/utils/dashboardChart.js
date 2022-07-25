@@ -1,5 +1,5 @@
 import Chart from "chart.js/auto";
-
+let chart;
 export const setDashboardChart = (labels , datapoints)=>{
     const data = {
         labels: labels,
@@ -51,5 +51,9 @@ export const setDashboardChart = (labels , datapoints)=>{
     };
 
     const ctx = document.getElementById('myChart').getContext('2d');
-    new Chart(ctx , config)
+    chart = new Chart(ctx , config)
+}
+
+export const destroyChart = ()=>{
+    chart.destroy()
 }

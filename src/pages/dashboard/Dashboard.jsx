@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { setDashboardChart } from "../../utils/dashboardChart";
+import { destroyChart, setDashboardChart } from "../../utils/dashboardChart";
 import Card from "./Card";
 import ProductTable from "./ProductTable";
 
@@ -21,7 +21,10 @@ const Dashboard = () => {
     ];
     const datapoints = [0, 20, 20, 60, 60, 120, 180, 120, 125, 105, 110, 170];
     setDashboardChart(labels, datapoints);
-  }, []);
+    return ()=>{
+      destroyChart() 
+    }
+  }, []); 
 
   return (
     <div id="dashboard_section" className="dashboard_section main_section">
@@ -69,7 +72,7 @@ const Dashboard = () => {
           <ProductTable />
         </div>
         <div className="col-12 col-lg-6">
-          <canvas id="myChart" height="195"></canvas>
+          <canvas id="myChart" height="195"></canvas> 
         </div>
       </div>
     </div>

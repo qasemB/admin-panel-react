@@ -6,10 +6,12 @@ import FormikError from "./FormikError";
 
 // if resultType == "string" then:  "1-2-3"  else:   [1,2,3]
 
-const SearchableSelect = ({resultType, options, name, label, className, firstItem}) => {
+const SearchableSelect = ({resultType, options, name, label, className, firstItem, initialItems}) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [showItems, setShowItems] = useState(false);
   const [copyOptions , setCopyOptions]=useState(options);
+
+  useEffect(()=>{setSelectedItems(initialItems)}, [initialItems])
 
   useEffect(()=>{
     setCopyOptions(options)
