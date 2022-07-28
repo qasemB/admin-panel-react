@@ -1,4 +1,5 @@
 import React from 'react';
+import Ckeditor from './Ckeditor';
 import File from './File';
 import Input from './Input';
 import MultiSelect from './MultiSelect';
@@ -23,6 +24,8 @@ const FormikControl = (props) => {
             return <File {...props}/>
         case 'switch':
             return <Switch {...props}/>
+        case 'ckeditor':
+            return <Ckeditor {...props}/>
         default:
             return null
     }
