@@ -13,13 +13,6 @@ const Ckeditor = ({name, label, className, placeholder}) => {
                         <CKEditor
                         editor={ ClassicEditor }
                         data={form.values[name] || `<p>${label} : ${placeholder}</p>`}
-                        // config={
-                        //     {
-                        //         ckfinder:{
-                        //             uploadUrl: "http://127.0.0.1:8000/api/upload"
-                        //         }
-                        //     }
-                        // }
                         onReady={ editor => {console.log('ready'); } }
                         onChange={ ( event, editor ) => {
                             const data = editor.getData();

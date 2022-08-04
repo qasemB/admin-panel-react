@@ -21,12 +21,7 @@ const TableProduct = () => {
     {
       field: null,
       title: "گروه محصول",
-      elements: (rowData) => rowData.categories[0].title,
-    },
-    {
-      field: null,
-      title: "توضیحات محصول",
-      elements: (rowData) => <span dangerouslySetInnerHTML={{__html: rowData.descriptions}}></span>,
+      elements: (rowData) => rowData.categories[0]?.title,
     },
     { field: "title", title: "عنوان" },
     { field: "price", title: "قیمت" },
