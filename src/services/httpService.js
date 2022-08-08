@@ -2,7 +2,7 @@ import axios from "axios"
 import { Alert } from "../utils/alerts";
 import config from './config.json'
 
-export const apiPath = config.onlinePath
+export const apiPath = config.offlinePath
 
 axios.interceptors.response.use((res)=>{
     if (res.status != 200 && res.status != 201) {
