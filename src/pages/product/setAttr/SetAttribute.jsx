@@ -40,7 +40,7 @@ const SetAttribute = () => {
             })
         ).then(()=>{
             setAttrs(attrsVar)
-            setInitialValues(Object.keys(initials).length > 0 ? initials : {})
+            setInitialValues(initials)
             setValidationSchema(Object.keys(initials).length > 0 ? Yup.object(rules) : {})
         })
     }
