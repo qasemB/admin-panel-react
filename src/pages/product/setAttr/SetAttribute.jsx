@@ -4,12 +4,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SubmitButton from "../../../components/form/SubmitButton";
-import ModalsContainer from "../../../components/ModalsContainer";
 import PrevPageButton from "../../../components/PrevPageButton";
 import SpinnerLoad from "../../../components/SpinnerLoad";
-import { getCategoryAttrsService } from "../../../services/categoryAttr";
 import * as Yup from "yup";
-import { onSubmit} from "./core";
+import { initializingData, onSubmit} from "./core";
 import FormikError from "../../../components/form/FormikError";
 
 
@@ -22,27 +20,10 @@ const SetAttribute = () => {
     const [validationSchema, setValidationSchema]=useState({})
 
     const handleGetAttributes = async ()=>{
-        let attrsVar = []
-        let initials = {}
-        let rules = {}
-        Promise.all(
-            selectedProduct.categories.map(async (cat)=>{
-                const res = await getCategoryAttrsService(cat.id)
-                if (res.status === 200) {
-                    attrsVar = [...attrsVar, { groupTitle: cat.title, data: res.data.data }]
-                    if (res.data.data.length > 0) {
-                        for (const d of res.data.data) {                        
-                            initials = {...initials, [d.id]:""}
-                            rules = {...rules, [d.id]:Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود")}
-                        }
-                    }
-                }
-            })
-        ).then(()=>{
-            setAttrs(attrsVar)
-            setInitialValues(initials)
-            setValidationSchema(Object.keys(initials).length > 0 ? Yup.object(rules) : {})
-        })
+        const {attrsVar,  initials,  rules } = await initializingData(selectedProduct)
+        setAttrs(attrsVar)
+        setInitialValues(initials)
+        setValidationSchema(Object.keys(initials).length > 0 ? Yup.object(rules) : {})        
     }
     useEffect(()=>{
         handleGetAttributes()
