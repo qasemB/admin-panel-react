@@ -55,6 +55,14 @@ a{
     opacity: 0.5;
 }
 
+.font_1_5{
+    font-size: 1.5rem;
+}
+
+.font_1_2{
+    font-size: 1.2rem;
+}
+
 
 /* scrollbars ------------------ */
 ::-webkit-scrollbar{
@@ -92,7 +100,7 @@ a{
     transition: all 200ms ease;
 }
 .hoverable:hover{
-    box-shadow: 0 0 3px black;
+    box-shadow: 0 0 5px black !important;
 }
 
 .chips_elem{
@@ -440,5 +448,37 @@ td , th {
     color: white;
 }
 
+.main_image{
+    border-bottom: 3px solid green !important;
+}
+
+.add_image_gallery, .image_gallery{
+    width: 200px;
+    height: 200px;
+}
+
+.image_action_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.699);
+    left: 0;
+    top: 0;
+    transition: all 200ms ease;
+    transform: scale(0);
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image_gallery:hover .image_action_container{
+    transform: scale(1);
+    opacity: 1;
+}
+
+.opacity_0{
+    opacity: 0 !important;
+}
 
 /* content end-------<<<<<<< */

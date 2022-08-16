@@ -21,6 +21,7 @@ import CategoryChildren from './category/CategoryChildren';
 import Attributes from './category/attrs/Attributes';
 import AddProduct from './product/AddProduct';
 import SetAttribute from './product/setAttr/SetAttribute';
+import ProductGallery from './product/gallery/ProductGallery';
 
 const Content = () => {
     const {showSidebar} = useContext(AdminContext)
@@ -36,6 +37,7 @@ const Content = () => {
             <Route path='/products' element={<Product/>}/>
             <Route path='/products/add-product' element={<AddProduct/>}/>
             <Route path='/products/set-attr' element={<SetAttribute/>}/>
+            <Route path='/products/gallery' element={<ProductGallery/>}/>
             <Route path='/colors' element={<Colors/>}/>
             <Route path='/guaranties' element={<Guaranties/>}/>
             <Route path='/brands' element={<Brands/>}/>

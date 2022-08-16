@@ -20,3 +20,7 @@ export const deleteProductService = (productId)=>{
 export const addProductAttrService = (productId, data)=>{
   return httpService(`/admin/products/${productId}/add_attr`, 'post', data)
 }
+
+export const addProductImage = (productId, data)=>{
+  return httpService(`/admin/products/${productId}/add_image`, 'post', data)
+}
