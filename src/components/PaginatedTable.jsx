@@ -4,7 +4,6 @@ const PaginatedTable = ({
   children,
   data,
   dataInfo,
-  additionField,
   numOfPAge,
   searchParams,
   loading,
@@ -60,28 +59,24 @@ const PaginatedTable = ({
         <table className="table table-responsive text-center table-hover table-bordered">
           <thead className="table-secondary">
             <tr>
-              {dataInfo.map((i) => (
-                <th key={i.field}>{i.title}</th>
+              {dataInfo.map((i, index) => (
+                <th key={i.field || `notField__${index}`}>{i.title}</th>
               ))}
-              {additionField
-                ? additionField.map((a, index) => (
-                    <th key={a.id + "__" + index}>{a.title}</th>
-                  ))
-                : null}
             </tr>
           </thead>
           <tbody>
             {tableData.map((d) => (
               <tr key={d.id}>
-                {dataInfo.map((i) => (
+              {dataInfo.map((i, index) =>
+                i.field ? (
                   <td key={i.field + "_" + d.id}>{d[i.field]}</td>
-                ))}
-                {additionField
-                  ? additionField.map((a, index) => (
-                      <td key={a.id + "___" + index}>{a.elements(d)}</td>
-                    ))
-                  : null}
-              </tr>
+                ) : (
+                  <td key={d.id + "__" + i.id + "__" + index}>
+                    {i.elements(d)}
+                  </td>
+                )
+              )}
+            </tr>
             ))}
           </tbody>
         </table>

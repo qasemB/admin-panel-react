@@ -14,20 +14,20 @@ const ColorsTable = () => {
       { field: "id", title: "#" },
       { field: "title", title: "عنوان" },
       { field: "code", title: "کد رنگ" },
-    ];
-  
-    const additionField = [
       {
+        field: null,
         title: "رنگ",
         elements: (rowData) => <div className="w-100 h-100 d-block" style={{ background: rowData.code, color: rowData.code }}>...</div>,
       },
       {
+        field: null,
         title: "عملیات",
         elements: (rowData) => (
           <Actions rowData={rowData} setColorToEdit={setColorToEdit} handleDeleteColor={handleDeleteColor}/>
         ),
       },
     ];
+
   
     const searchParams = {
       title: "جستجو",
@@ -61,7 +61,6 @@ const ColorsTable = () => {
     <PaginatedTable
       data={data}
       dataInfo={dataInfo}
-      additionField={additionField}
       numOfPAge={8}
       searchParams={searchParams}
       loading={loading}

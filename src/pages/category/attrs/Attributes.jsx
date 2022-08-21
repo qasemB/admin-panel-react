@@ -20,13 +20,13 @@ const Attributes = () => {
     { field: "id", title: "#" },
     { field: "title", title: "عنوان محصول" },
     { field: "unit", title: "واحد" },
-  ];
-  const additionField = [
     {
+      field:null,
       title: "نمایش در فیلتر",
       elements: (rowData) => <ShowInFilter rowData={rowData} />,
     },
     {
+      field:null,
       title: "عملیات",
       elements: (rowData) => (
         <AttrAction
@@ -38,6 +38,7 @@ const Attributes = () => {
       ),
     },
   ];
+
   const searchParams = {
     title: "جستجو",
     placeholder: "قسمتی از عنوان را وارد کنید",
@@ -110,7 +111,6 @@ const Attributes = () => {
           <PaginatedTable
             data={data}
             dataInfo={dataInfo}
-            additionField={additionField}
             numOfPAge={5}
             searchParams={searchParams}
             loading={loading}
