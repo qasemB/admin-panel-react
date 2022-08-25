@@ -1,5 +1,6 @@
 import React from 'react';
 import Ckeditor from './Ckeditor';
+import Date from './Date';
 import File from './File';
 import Input from './Input';
 import MultiSelect from './MultiSelect';
@@ -26,6 +27,8 @@ const FormikControl = (props) => {
             return <Switch {...props}/>
         case 'ckeditor':
             return <Ckeditor {...props}/>
+        case 'date':
+            return <Date {...props}/>
         default:
             return null
     }

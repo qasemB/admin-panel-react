@@ -482,3 +482,27 @@ td , th {
 }
 
 /* content end-------<<<<<<< */
+
+/* datepicker ------------->>>>>>>>>> */
+.form_date_picker .input100 {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666666;
+    display: block;
+    width: 100%;
+    background: #ffffff;
+    height: 41px;
+    border-radius: 3px;
+    border: 1px solid #e2e3e5;
+    padding-right: 18px;
+  }
+  
+  .form_date_picker .datePicker {
+    position: absolute;
+    top: 0;
+    height: 41px;
+    background: #ffffff;
+    border-radius: 3px;
+    z-index: 1;
+    border: 1px solid #e2e3e5;
+  }  
