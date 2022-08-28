@@ -1,6 +1,8 @@
 import { Alert } from "../../utils/alerts";
 import * as Yup from "yup";
 import jMoment from 'jalali-moment';
+import { convertFormDateToMiladi } from "../../utils/convertDate";
+import { addNewDiscountService } from "../../services/discounts";
 
 export const initialValues = {
     title: "",
@@ -11,8 +13,17 @@ export const initialValues = {
     product_ids: "",
 };
 
-export const onSubmit = async (values, actions) => {
-    console.log(values);
+export const onSubmit = async (values, actions, setData) => {
+    values = {
+        ...values,
+        expire_at: convertFormDateToMiladi(values.expire_at)
+    }
+    const res = await addNewDiscountService(values)
+    if (res.status == 201) {
+        Alert('انجام شد', res.data.message, 'success')
+        actions.resetForm();
+        setData(old=>[...old, res.data.data])
+    }
 };
 
 export const validationSchema = Yup.object()

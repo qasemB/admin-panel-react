@@ -1,6 +1,6 @@
 import React from 'react';
 import ModalsContainer from '../../components/ModalsContainer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import FormikControl from '../../components/form/FormikControl';
 import { initialValues, onSubmit, validationSchema } from './core';
@@ -14,12 +14,31 @@ const AddDiscount = () => {
     const [allProducts, setAllProducts] = useState([])
     const [discountToEdit, setDiscountToEdit] = useState(null)
     const [selectedProducts, setSelectedProducts]=useState([])
+    const {setData} = useOutletContext()
 
     const handleGetAllProductTitles = async ()=>{
         const res = await getAllProductTitlesService();
         if (res.status === 200) {
             setAllProducts(res.data.data.map(p=>{return{id:p.id, value:p.title}}));
         }
+    }
+
+    const handleSetProductSelectBox = (formik)=>{
+        const idsArr = formik.values.product_ids.split("-").filter(id=>id);
+        const selectedProductArr = idsArr.map(id=>allProducts.filter(p=>p.id == id)[0])
+        console.log(selectedProductArr);
+        return (
+            <FormikControl
+            className="animate__animated animate__shakeX"
+            label="برای"
+            control="searchableSelect"
+            options={allProducts}
+            name="product_ids"
+            firstItem="محصول مورد نظر را انتخاب کنبد..."
+            resultType="string"
+            initialItems={selectedProductArr.length > 0 ? selectedProductArr : selectedProducts}
+            />
+        )
     }
 
     useEffect(()=>{
@@ -30,7 +49,7 @@ const AddDiscount = () => {
     },[])
     return (
         <ModalsContainer
-            className="show d-block animate__animated animate__fadeInDown animate__fast"
+            className="show d-block"
             id={"add_discount_modal"}
             title={"افزودن کد تخفیف"}
             fullScreen={false}
@@ -41,7 +60,7 @@ const AddDiscount = () => {
 
                     <Formik
                     initialValues={initialValues}
-                    onSubmit={(values, actions)=>onSubmit(values, actions)}
+                    onSubmit={(values, actions)=>onSubmit(values, actions, setData)}
                     validationSchema={validationSchema}
                     >
                         {formik=>{
@@ -85,18 +104,7 @@ const AddDiscount = () => {
                                         </div>
                                     </div>
                                     {
-                                        !formik.values.for_all ? (
-                                            <FormikControl
-                                            className="animate__animated animate__shakeX"
-                                            label="برای"
-                                            control="searchableSelect"
-                                            options={allProducts}
-                                            name="product_ids"
-                                            firstItem="محصول مورد نظر را انتخاب کنبد..."
-                                            resultType="string"
-                                            initialItems={selectedProducts}
-                                            />
-                                        ) : null
+                                        !formik.values.for_all ? handleSetProductSelectBox(formik) : null
                                     }
                                     <div className="btn_box text-center col-12 mt-4">
                                         <SubmitButton />

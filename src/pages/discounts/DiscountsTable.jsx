@@ -65,7 +65,7 @@ const DiscounTstable = () => {
         loading={loading}
       >
         <AddButtonLink href={"/discounts/add-discount-code"} />
-        <Outlet />
+        <Outlet context={{setData}}/>
       </PaginatedTable>
     );
 }

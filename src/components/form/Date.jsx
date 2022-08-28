@@ -29,7 +29,7 @@ const Date = ({formik,name,label,yearsLimit}) => {
     useEffect(()=>{
         let now = jMoment();
         setDay(now.jDate());
-        setMonth(now.jMonth());
+        setMonth((now.jMonth()) + 1);
         setYear(now.jYear());
     } , [])
 
