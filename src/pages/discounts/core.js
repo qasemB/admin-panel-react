@@ -18,12 +18,13 @@ export const onSubmit = async (values, actions, setData) => {
         ...values,
         expire_at: convertFormDateToMiladi(values.expire_at)
     }
-    const res = await addNewDiscountService(values)
-    if (res.status == 201) {
-        Alert('انجام شد', res.data.message, 'success')
-        actions.resetForm();
-        setData(old=>[...old, res.data.data])
-    }
+    console.log(values);
+    // const res = await addNewDiscountService(values)
+    // if (res.status == 201) {
+    //     Alert('انجام شد', res.data.message, 'success')
+    //     actions.resetForm();
+    //     setData(old=>[...old, res.data.data])
+    // }
 };
 
 export const validationSchema = Yup.object()

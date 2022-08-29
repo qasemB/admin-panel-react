@@ -5,7 +5,7 @@ export const convertDateToJalali =(date)=>{
 }
 
 export const convertFormDateToMiladi = (date)=>{
-    const persinaDate = date.replace(/\s/g, '');
-    const truePersianDate = jMoment(persinaDate, 'D/M/YYYY').format('YYYY/MM/DD')
-    return jMoment(truePersianDate, 'jYYYY/jMM/jDD').format('YYYY-M-D')
+    // const persinaDate = date.replace(/\s/g, '');
+    // const truePersianDate = jMoment(persinaDate, 'D/M/YYYY').format('YYYY/MM/DD')
+    return jMoment(date, 'jD / jM / jYYYY').format('YYYY-M-D')
 }
