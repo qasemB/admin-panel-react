@@ -2,7 +2,7 @@ import { Alert } from "../../utils/alerts";
 import * as Yup from "yup";
 import jMoment from 'jalali-moment';
 import { convertFormDateToMiladi } from "../../utils/convertDate";
-import { addNewDiscountService } from "../../services/discounts";
+import { addNewDiscountService, updateDiscountService } from "../../services/discounts";
 
 export const initialValues = {
     title: "",
@@ -13,18 +13,31 @@ export const initialValues = {
     product_ids: "",
 };
 
-export const onSubmit = async (values, actions, setData) => {
+export const onSubmit = async (values, actions, setData, discountToEdit) => {
     values = {
         ...values,
         expire_at: convertFormDateToMiladi(values.expire_at)
     }
-    console.log(values);
-    // const res = await addNewDiscountService(values)
-    // if (res.status == 201) {
-    //     Alert('انجام شد', res.data.message, 'success')
-    //     actions.resetForm();
-    //     setData(old=>[...old, res.data.data])
-    // }
+    if (discountToEdit) {
+        const res = await updateDiscountService(discountToEdit.id, values)
+        console.log(res.data);
+        if (res.status == 200) {
+            Alert('انجام شد', res.data.message, 'success')
+            setData(lastData=>{
+                let newData = [...lastData];
+                let index = newData.findIndex((d) => d.id == discountToEdit.id);
+                newData[index] = res.data.data;
+                return newData;
+            })
+        }
+    }else{
+        const res = await addNewDiscountService(values)
+        if (res.status == 201) {
+            Alert('انجام شد', res.data.message, 'success')
+            actions.resetForm();
+            setData(old=>[...old, res.data.data])
+        }
+    }
 };
 
 export const validationSchema = Yup.object()
