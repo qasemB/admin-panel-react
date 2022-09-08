@@ -510,3 +510,8 @@ td , th {
   .back_smoke{
     background-color: rgba(0, 0, 0, 0.459) !important;
   }
+
+  .sidebar_items_container{
+    max-height: calc(100vh - 210px) !important;
+    overflow: auto;
+  }
