@@ -35,6 +35,7 @@ const RolesTable = () => {
       const res = await getAllRolesService();
       res && setLoading(false)
       if (res.status === 200) {
+        console.log(res.data.data);
           setData(res.data.data);
       }
     }
