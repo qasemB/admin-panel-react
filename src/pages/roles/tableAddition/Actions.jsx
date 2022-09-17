@@ -9,9 +9,15 @@ const Actions = ({ rowData, handleDeleteRole}) => {
         title="ویرایش نقش"
         data-bs-placement="top"
         data-bs-toggle="tooltip"
-        onClick={()=>navigate('/roles/add-role', {state:{roleToEdit:rowData}})}
+        onClick={()=>navigate('/roles/add-role', {state:{roleIdToEdit:rowData.id, editType: "role"}})}
       ></i>
-
+      <i
+        className="fas fa-fingerprint text-info mx-1 hoverable_text pointer has_tooltip"
+        title="دسترسی ها"
+        data-bs-placement="top"
+        data-bs-toggle="tooltip"
+        onClick={()=>navigate('/roles/add-role', {state:{roleIdToEdit:rowData.id, editType: "permissions"}})}
+      ></i>
       <i
         className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
         title="حذف نقش"
