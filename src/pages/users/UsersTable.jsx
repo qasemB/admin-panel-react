@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link , Outlet} from "react-router-dom";
 import AddButtonLink from "../../components/AddButtonLink";
 import PaginatedDataTable from "../../components/PaginatedDataTable";
 import { getAllPaginatedUsersService, getAllUsersService } from "../../services/users";
@@ -82,7 +82,8 @@ const UsersTable = () => {
     pageCount={pageCount}
     handleSearch={handleSearch}
     >
-      <AddButtonLink href={"/products/add-user"}/>
+      <AddButtonLink href={"/users/add-user"}/>
+      <Outlet/>
     </PaginatedDataTable>
   );
 };
