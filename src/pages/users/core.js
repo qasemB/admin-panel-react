@@ -1,9 +1,7 @@
 import { Alert } from "../../utils/alerts";
 import * as Yup from "yup";
-import jMoment from 'jalali-moment';
 import { convertFormDateToMiladi } from "../../utils/convertDate";
-import { addNewDiscountService, updateDiscountService } from "../../services/discounts";
-import { addNewRoleService, editRolePermissionsService, editRoleService } from "../../services/users";
+import { addNewUserService } from "../../services/users";
 
 export const initialValues = {
     user_name: "",
@@ -17,8 +15,21 @@ export const initialValues = {
     roles_id: []
 };
 
-export const onSubmit = async (values, actions) => {
-    console.log(values);
+export const onSubmit = async (values, actions, setData, userId) => {
+    values = {
+        ...values,
+        birth_date: values.birth_date ? convertFormDateToMiladi(values.birth_date) : null
+    }
+    if (userId) {
+
+    }else{
+        const res = await addNewUserService(values)
+        if (res.status == 201) {
+            Alert('انجام شد', res.data.message, 'success')
+            actions.resetForm();
+            setData(old=>[...old, res.data.data])
+        }
+    } 
 };
 
 export const validationSchema = Yup.object().shape({
@@ -28,7 +39,7 @@ export const validationSchema = Yup.object().shape({
     last_name : Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     password : Yup.string().required("لطفا این قسمت را پر کنید")
         .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
-    phone : Yup.number().required("لطفا این قسمت را پر کنید"),
+    phone : Yup.number().typeError("فقط عدد وارد کنید").required("لطفا این قسمت را پر کنید"),
     email : Yup.string().email("لطفا فرمت ایمیل را رعایت کنید"),
     birth_date : Yup.string().matches(/^[0-9/\ \s-]+$/,"فقط ازاعداد و خط تیره استفاده شود"),
     gender : Yup.number(),
