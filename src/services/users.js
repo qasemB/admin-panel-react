@@ -43,3 +43,11 @@ export const addNewUserService = (data) => {
 export const getSinglrUserService = (userId)=>{
   return httpService(`/admin/users/${userId}`, "get")
 }
+
+export const editUserService = (userId, data) => {
+  return httpService(`/admin/users/${userId}`, "put", data);
+};
+
+export const deleteUserService = (userId) => {
+  return httpService(`/admin/users/${userId}`, "delete");
+};

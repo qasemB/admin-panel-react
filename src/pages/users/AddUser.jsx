@@ -55,6 +55,7 @@ const AddUser = () => {
                 phone: userToEdit.phone || "",
                 email: userToEdit.email || "",
                 gender: userToEdit.gender || 1,
+                isEditing : true
             })
         }
     },[userToEdit])
@@ -109,7 +110,7 @@ const AddUser = () => {
                                         <FormikControl
                                         className={"col-md-8"}
                                         control="input"
-                                        type="number"
+                                        type="text"
                                         name="phone"
                                         label="شماره موبایل"
                                         placeholder="فقط از اعداد استفاده کنید"

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link , Outlet} from "react-router-dom";
 import AddButtonLink from "../../components/AddButtonLink";
 import PaginatedDataTable from "../../components/PaginatedDataTable";
-import { getAllPaginatedUsersService, getAllUsersService } from "../../services/users";
+import { deleteUserService, getAllPaginatedUsersService, getAllUsersService } from "../../services/users";
 import { Alert, Confirm } from "../../utils/alerts";
 import Actions from "./tableAddition/Actions";
 import Roles from "./tableAddition/Roles";
@@ -62,15 +62,16 @@ const UsersTable = () => {
     handleGetUsers(1, countOnPage, char)
   }
 
-  const handleDeleteUser = async (product)=>{
-    // if (await Confirm("حذف کاربر",`آیا از حذف ${product.title} اطمینان دارید؟`)) {
-    //   const res = await deleteProductService(product.id);
-    //   if (res.status === 200) {
-    //     Alert("انجام شد", res.data.message, "success");
-    //     handleGetProducts(currentPage, countOnPage, searchChar)
-    //   }
-    // }
+  const handleDeleteUser = async (user)=>{
+    if (await Confirm("حذف کاربر",`آیا از حذف ${user.user_name} اطمینان دارید؟`)) {
+      const res = await deleteUserService(user.id);
+      if (res.status === 200) {
+        Alert("انجام شد", res.data.message, "success");
+        handleGetUsers(currentPage, countOnPage, searchChar)
+      }
+    }
   }
+
 
   useEffect(()=>{
     handleGetUsers(currentPage, countOnPage, searchChar)
