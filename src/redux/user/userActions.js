@@ -1,22 +1,22 @@
 import { getUserService } from "../../services/auth"
-import { RECEIVE_ROLES_ERROR, RECEIVE_ROLES_RESPONSE, SEND_ROLES_REQUEST } from "./rolesTypes"
+import { RECEIVE_USER_ERROR, RECEIVE_USER_RESPONSE, SEND_USER_REQUEST } from "./userTypes"
 
-export const sendRolesRequest = ()=>{
+export const sendUserRequest = ()=>{
     return {
-        type: SEND_ROLES_REQUEST
+        type: SEND_USER_REQUEST
     }
 }
 
-export const receiveRolesResponse = (data)=>{
+export const receiveUserResponse = (data)=>{
     return {
-        type: RECEIVE_ROLES_RESPONSE,
+        type: RECEIVE_USER_RESPONSE,
         payload: data
     }
 }
 
-export const receiveRolesError = (error)=>{
+export const receiveUserError = (error)=>{
     return {
-        type: RECEIVE_ROLES_ERROR,
+        type: RECEIVE_USER_ERROR,
         payload: error
     }
 }

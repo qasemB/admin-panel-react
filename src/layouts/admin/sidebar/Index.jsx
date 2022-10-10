@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { AdminContext } from "../../../context/adminLayoutContext";
 import Avatar from "./Avatar";
 import SidebarGroupTitle from "./SidebarGroupTitle";
@@ -6,11 +7,12 @@ import SidebarItem from "./SidebarItem";
 
 const Index = () => {
   const {showSidebar} = useContext(AdminContext)
+  const user = useSelector(state=>state.userReducer.data)
   return (
     <section id="sidebar_section">
       <div className={`mini_sidebar collapsedd bg-dark h-100 ${showSidebar ? "expanded" : null}`}>
         <div className="p-0 m-0">
-          <Avatar name="قاسم بساکی" imagePath="/assets/images/avatar/user2.jpg"/>
+          <Avatar name={user.full_name || user.user_name} imagePath={user.image || "/assets/images/user4.png"}/>
           <SidebarItem targetPath="/" icon="fas fa-tachometer-alt" title="داشبورد"/>
           <div className="sidebar_items_container">
           {/* <!-- =================================== --> */}

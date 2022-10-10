@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { receiveRolesResponse } from "../redux/rolse/rolesActions";
+import { receiveUserResponse } from "../redux/user/userActions";
 import { getUserService } from "../services/auth";
 
 export const useIsLogin = ()=>{
@@ -15,7 +15,10 @@ export const useIsLogin = ()=>{
         const res = await getUserService()
         setIsLogin(res.status == 200 ? true : false);
         setLoading(false);
-        dispatch(receiveRolesResponse(res.data.roles))
+
+        const user = res.data
+        user.full_name = `${user.first_name || ""} ${user.last_name || ""}`.trim()
+        dispatch(receiveUserResponse(user))
       } catch (error) {
         localStorage.removeItem("loginToken");
         setIsLogin(false);
