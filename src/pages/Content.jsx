@@ -25,19 +25,33 @@ import ProductGallery from './product/gallery/ProductGallery';
 import AddDiscount from './discounts/AddDiscount';
 import AddRole from './roles/AddRole';
 import AddUser from './users/AddUser';
+import { useSelector } from 'react-redux';
 
 const Content = () => {
     const {showSidebar} = useContext(AdminContext)
+    const user = useSelector(state=>state.userReducer.data)
+    const roles = user.roles;
+    let permissions = []
+    for (const role of roles)  permissions = [...permissions, ...role.permissions]
+    const hasPermission = (permission)=>{
+      return permissions.findIndex(p=>p.title.includes(permission)) > -1
+    }
     return (
         <section id="content_section" 
         className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
           <Routes>
             <Route path='/' element={<Dashboard/>}/>
-            <Route path='/categories' element={<Category/>}>
-              <Route path=':categoryId' element={<CategoryChildren/>}/>
-            </Route>
-            <Route path='/categories/:categoryId/attributes' element={<Attributes/>}/>
-            <Route path='/products' element={<Product/>}/>
+            {hasPermission("read_categories") && (
+              <Route path='/categories' element={<Category/>}>
+                <Route path=':categoryId' element={<CategoryChildren/>}/>
+              </Route>
+            )}
+            {hasPermission("read_category_attrs") && (
+              <Route path='/categories/:categoryId/attributes' element={<Attributes/>}/>
+            )}
+            {hasPermission("read_products") && (
+              <Route path='/products' element={<Product/>}/>
+            )}
             <Route path='/products/add-product' element={<AddProduct/>}/>
             <Route path='/products/set-attr' element={<SetAttribute/>}/>
             <Route path='/products/gallery' element={<ProductGallery/>}/>
