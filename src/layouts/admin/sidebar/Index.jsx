@@ -22,7 +22,7 @@ const Index = () => {
             <SidebarItem targetPath="/categories" icon="fas fa-stream" title="مدیریت گروه محصول" pTitle="read_categories" />
             <SidebarItem targetPath="/products" icon="fas fa-cube" title="مدیریت محصول" pTitle="read_products" />
             <SidebarItem targetPath="/brands" icon="fas fa-copyright"  title="مدیریت برندها" pTitle="read_brands" />
-            <SidebarItem targetPath="/guaranties" icon="fab fa-pagelines" title="مدیریت گارانتی ها" pTitle="read_guaranties" />
+            <SidebarItem targetPath="/guaranties" icon="fab fa-pagelines" title="مدیریت گارانتی ها" pTitle="read_guarantees" />
             <SidebarItem targetPath="/colors" icon="fas fa-palette"  title="مدیریت رنگ ها" pTitle="read_colors" />
             <SidebarItem targetPath="/discounts" icon="fas fa-percentage" title="مدیریت تخفیف ها" pTitle="read_discounts" />
             {/* <!-- =================================== --> */}

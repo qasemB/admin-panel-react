@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import PaginatedTable from "../../components/PaginatedTable";
+import { useHasPermission } from "../../hook/permissionsHook";
 import { deleteCategoryService, getCategoriesService } from "../../services/category";
 import { Alert, Confirm } from "../../utils/alerts";
 import { convertDateToJalali } from "../../utils/convertDate";
@@ -13,6 +14,9 @@ const Categorytable = () => {
   const [data, setData] = useState([]);
   const [forceRender, setForceRender] = useState(0);
   const [loading , setLoading] = useState(false)
+
+  const hasAddCategoryPerm = useHasPermission("create_category")
+
   const handleGetCategories = async () => {
     setLoading(true)
     try {
@@ -82,7 +86,7 @@ const Categorytable = () => {
         searchParams={searchParams}
         loading={loading}
       >
-        <Addcategory setForceRender={setForceRender} />
+        {hasAddCategoryPerm && <Addcategory setForceRender={setForceRender} />}
       </PaginatedTable>
     </>
   );
