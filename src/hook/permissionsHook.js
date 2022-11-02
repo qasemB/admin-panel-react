@@ -6,7 +6,6 @@ export const useHasPermission = (pTitle)=>{
     let permissions = []
     for (const role of roles)  permissions = [...permissions, ...role.permissions]
     const isAdmin = roles.findIndex(r=>r.title === "admin") > -1
-    console.log(isAdmin);
     return isAdmin || 
             (typeof(pTitle) === "object" 
             ? hasOneOfPerm(permissions, pTitle) 
