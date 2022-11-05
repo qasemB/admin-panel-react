@@ -9,6 +9,10 @@ export const getAllProductTitlesService = () => {
   return httpService(`/admin/products/all_titles`, "get");
 };
 
+export const getOneProductService = (productId)=>{
+  return httpService(`/admin/products/${productId}`, "get");
+}
+
 export const createNewProductService = (data)=>{
   return httpService('/admin/products', 'post', data.image ? convertDataToFormdata(data) : data)
 }

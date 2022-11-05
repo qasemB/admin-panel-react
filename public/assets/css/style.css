@@ -516,3 +516,24 @@ td , th {
     max-height: calc(100vh - 210px) !important;
     overflow: auto;
   }
+  
+  .select-search-container{
+    width: 100% !important;
+  }
+  
+  .select-search-input{
+    font-family: "BYekan" !important;
+    text-align: right !important;
+    height: 39px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+  }
+
+  .select-search-input:focus{
+    border: 1px solid #ced4da !important;
+  }
+
+  .select-search-select *{
+    font-family: "BYekan" !important;
+    text-align: right !important;
+  }
