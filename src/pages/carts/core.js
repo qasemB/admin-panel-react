@@ -9,16 +9,14 @@ export const initialValues = {
     count: "",
 };
 
-export const onSubmit = async (values, actions, setSelectedProducts, setSelectedProductsInfo, currentProduct) => {
-    setSelectedProducts(old=>[...old, {...values}])
+export const onSubmit = async (values, actions, setSelectedProductsInfo, currentProduct) => {
     actions.resetForm()
     actions.setFieldValue('user_id', values.user_id)
     setSelectedProductsInfo(old=>[...old, {
         id: currentProduct.id+Math.random(),
-        productName: currentProduct.title,
-        price: currentProduct.price,
-        guarantee: values.guarantee_id > 0 ? currentProduct.guarantees.filter(g=>g.id == values.guarantee_id)[0].title : null,
-        color: values.color_id > 0 ? currentProduct.colors.filter(c=>c.id == values.color_id)[0].code : null,
+        product: currentProduct,
+        guarantee: values.guarantee_id > 0 ? currentProduct.guarantees.filter(g=>g.id == values.guarantee_id)[0] : null,
+        color: values.color_id > 0 ? currentProduct.colors.filter(c=>c.id == values.color_id)[0] : null,
         count: values.count,
     }])
 };
