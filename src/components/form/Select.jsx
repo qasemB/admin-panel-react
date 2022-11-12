@@ -37,7 +37,9 @@ const Select = ({options, name, label, className, firstItem, handleOnchange}) =>
                         )
                     }}
                 </Field>
-                <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                {label && (
+                    <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                )}
             </div>
             <ErrorMessage name={name} component={FormikError}/>
         </div>

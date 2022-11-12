@@ -29,6 +29,7 @@ import PermComponent from '../components/PermComponent';
 import { useHasPermission } from '../hook/permissionsHook';
 import AddDelivery from './deliveries/AddDelivery';
 import AddCart from './carts/AddCart';
+import AddOrder from './orders/AddOrder';
 
 const Content = () => {
     const {showSidebar} = useContext(AdminContext)
@@ -38,6 +39,7 @@ const Content = () => {
     const hasRolePermission = useHasPermission("read_roles")
     const hasDeliveyPermission = useHasPermission("read_deliveries")
     const hasCartPermission = useHasPermission("read_carts")
+    const hasOrderPermission = useHasPermission("read_orders")
     return (
         <section id="content_section" 
         className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
@@ -69,8 +71,11 @@ const Content = () => {
               </Route>
             )}
             
-            <Route path='/orders' element={<Orders/>}/>
-            
+            {hasOrderPermission && (
+              <Route path='/orders' element={<Orders/>}>
+                <Route path='add-order' element={<PermComponent component={<AddOrder/>} pTitle="create_order"/>}/>
+              </Route>
+            )}            
 
             {hasDeliveyPermission && (
               <Route path='/deliveries' element={<Deliveries/>}>

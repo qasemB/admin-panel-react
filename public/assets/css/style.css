@@ -515,6 +515,7 @@ td , th {
   .sidebar_items_container{
     max-height: calc(100vh - 210px) !important;
     overflow: auto;
+    overflow-x: hidden !important;
   }
   
   .select-search-container{
@@ -536,4 +537,8 @@ td , th {
   .select-search-select *{
     font-family: "BYekan" !important;
     text-align: right !important;
+  }
+
+  .mini_date_box select{
+    padding: 0 !important;
   }

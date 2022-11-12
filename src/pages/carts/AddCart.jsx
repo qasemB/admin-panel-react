@@ -14,7 +14,7 @@ import { numberWithCommas } from '../../utils/numbers';
 const AddCart = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    const cartToEditId = location.state.cartId
+    const cartToEditId = location.state?.cartId
     const {handleGetCarts} = useOutletContext()
 
     const [allProducts, setAllProducts] = useState([])
@@ -64,7 +64,8 @@ const AddCart = () => {
                 products
             })
         }
-        if (res.status === 201, res.status === 200) {
+        console.log(res);
+        if (res.status === 201 || res.status === 200) {
             Alert('انجام شد', res.data.message, 'success');
             handleGetCarts()
             navigate(-1);
