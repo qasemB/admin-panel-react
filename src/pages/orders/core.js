@@ -18,7 +18,7 @@ export const initialValues = {
 export const onSubmit = async (values, actions, navigate, handleGetOrders) => {
     values = {
         ...values,
-        pay_at: convertFormDateToMiladi(values.pay_at)
+        pay_at: values.pay_at ? convertFormDateToMiladi(values.pay_at) : null
     }
     const res = await addNewOrderService(values);
     if (res.status === 201) {
@@ -37,9 +37,7 @@ export const validationSchema = Yup.object().shape({
         .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     phone : Yup.number().typeError("فقط عدد وارد کنید").required("لطفا این قسمت را پر کنید"),
     email : Yup.string().email("فرمت ایمیل را رعایت کنید"),
-    pay_at:Yup.string()
-        .required("لطفا این قسمت را پر کنید")
-        .matches(/^[0-9/\ \s-]+$/,"فقط ازاعداد و خط تیره استفاده شود"),
+    pay_at:Yup.string().matches(/^[0-9/\ \s-]+$/,"فقط ازاعداد و خط تیره استفاده شود"),
     pay_card_number : Yup.number().typeError("فقط عدد وارد کنید"),
     pay_bank : Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
 })

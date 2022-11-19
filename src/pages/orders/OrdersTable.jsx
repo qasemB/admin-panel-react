@@ -33,7 +33,7 @@ const OrdersTable = () =>  {
       {
         field: null,
         title: "تاریخ پرداخت",
-        elements: (rowData) => convertDateToJalali(rowData.pay_at)
+        elements: (rowData) => rowData.pay_at ? convertDateToJalali(rowData.pay_at) : ""
       },
       {
         field: null,
