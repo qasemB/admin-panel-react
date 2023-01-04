@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import AdminLayout from './layouts/admin/Index';
 import AuthLayout from './layouts/authLayout/AuthLAyout';
-import store from './redux/store';
+import store from './redux/store'; 
 
 function App() {
   const location = useLocation()
